@@ -30,8 +30,16 @@ void quick_sort(int arr[], int start, int end);
 
 /*Merge Sort*/
 void merge(int arr[], int temp[], int start, int mid, int end);
-void merge_sort(int arr[], int start, int end);
 void merge_sort_implement(int arr[], int temp[], int start, int end);
+void merge_sort(int arr[], int start, int end);
+
+/*Merge Sort for Practice*/
+void merge_u(int arr[], int temp[], int start, int mid, int end);
+void merge_sort_u(int arr[], int temp[], int start, int end);
+
+/*Heap Sort*/
+
+/*Radix Sort*/
 
 
 /*Test Sort Function.*/

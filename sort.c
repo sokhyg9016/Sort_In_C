@@ -63,6 +63,22 @@ void bubble_sort(int arr[], int n)
 	}
 }
 
+void insertion_sort(int arr[], int n)
+{
+	int i, j, key;
+	for (i = 1; i < n; i++)
+	{
+		key = arr[i];
+		j = i - 1;
+		while (j >= 0 && arr[j] > key)
+		{
+			arr[j + 1] = arr[j];
+			j--;
+		}
+		arr[j + 1] = key;
+	}
+}
+
 int partition(int arr[], int start, int end)
 {
 	int pivot = arr[(start + end) / 2];
@@ -100,6 +116,8 @@ void quick_sort(int arr[], int start, int end)
 void merge(int arr[], int temp[], int start, int mid, int end)
 {
 	int i;
+	int part1, part2;
+	int index;
 
 	/*임시 저장소에 정렬이 된 배열을 필요한 만큼 복사를 해준다.*/
 	for (i = start; i <= end; i++)
@@ -110,38 +128,48 @@ void merge(int arr[], int temp[], int start, int mid, int end)
 	//part1 : 1번째 배열의 시작 위치[나눈 배열의 1번째 요소의 시작 위치][범위: start ~ mid]
 	//part2 : 2번째 배열의 시작 위치[나눈 배열의 2번째 요소의 시작 위치][범위: mid + 1 ~ end]
 	//index : 배열의 현재 위치를 가리키는 변수
-	int part1 = start;
-	int part2 = mid + 1;
-	int index = start;
+	part1 = start;
+	part2 = mid + 1;
+	index = start;
 
 	//두개의 배열안에서 요소의 값이 가장 작은 수를 비교하여 정렬시킬 배열에 저장한다.
 	while (part1 <= mid && part2 <= end)
 	{
 		if (temp[part1] < temp[part2])
 		{
-			arr[index] = temp[part1];
-			part1++;
+			arr[index++] = temp[part1++];
 		}
 		else
 		{
-			arr[index] = temp[part2];
-			part2++;
+			arr[index++] = temp[part2++];
 		}
-		index++;
 	}
 
-	//루프가 끝났을때 앞쪽 배열에 데이터가 남아 있는 경우 배열에 붙여준다.
-	for (int i = 0; i <= mid - part1; i++)
+	if (part1 > mid)
 	{
-		arr[index + i] = temp[part1 + i];
+		//루프가 끝났을때 뒤쪽 배열에 데이터가 남아 있는 경우 배열에 붙여준다.
+		for (i = part2; i <= end; i++)
+		{
+			arr[index++] = temp[i];
+		}
+	}
+	else
+	{
+		//루프가 끝났을때 앞쪽 배열에 데이터가 남아 있는 경우 배열에 붙여준다.
+		for (i = part1; i <= mid; i++)
+		{
+			arr[index++] = temp[i];
+		}
 	}
 }
 
 void merge_sort_implement(int arr[], int temp[], int start, int end)
 {
+	int mid;
+
 	if (start < end)
 	{
-		int mid = (start + end) / 2;
+		mid = (start + end) / 2;
 		merge_sort_implement(arr, temp, start, mid);
 		merge_sort_implement(arr, temp, mid + 1, end);
 		merge(arr, temp, start, mid, end);
@@ -152,7 +180,10 @@ void merge_sort(int arr[], int start, int end)
 {
 	int temp[MAX_SIZE] = { 0, };
 	merge_sort_implement(arr, temp, 0, MAX_SIZE - 1);
+	//merge_sort_u(arr, temp, 0, MAX_SIZE - 1);
+
 }
+
 
 void Test(const char* sort_type)
 {
@@ -205,6 +236,21 @@ void Test(const char* sort_type)
 		//do_sleep((clock_t)3 * CLOCKS_PER_SEC);
 		printf("\n\n[Sort Time : %2.5lf second]\n", duration);
 	}	
+	else if (strcmp(sort_type, "Insertion Sort") == 0)
+	{
+		start = clock();
+		insertion_sort(arr, MAX_SIZE);
+		end = clock();
+
+		duration = (double)(end - start) / CLOCKS_PER_SEC;
+		printf("[After :: \"Insertion Sort\"]\n");
+		for (i = 0; i < MAX_SIZE; i++)
+		{
+			printf("%d, ", arr[i]);
+		}
+		//do_sleep((clock_t)3 * CLOCKS_PER_SEC);
+		printf("\n\n[Sort Time : %2.5lf second]\n", duration);
+	}	
 	else if (strcmp(sort_type, "Quick sort") == 0)
 	{
 		start = clock();
@@ -234,5 +280,5 @@ void Test(const char* sort_type)
 		}
 		//do_sleep((clock_t)3 * CLOCKS_PER_SEC);
 		printf("\n\n[Sort Time : %2.5lf second]\n", duration);
-	}
+	}	
 }
