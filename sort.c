@@ -196,13 +196,13 @@ void Test(const char* sort_type)
 
 	for (i = 0; i < MAX_SIZE; i++)
 	{
-		arr[i] = rand() % MAX_SIZE;
+		arr[i] = (rand() % MAX_SIZE) + 1;
 	}
 
 	printf("[Before]\n");
 	for (i = 0; i < MAX_SIZE; i++)
 	{
-		printf("%d, ", arr[i]);
+		//printf("%d, ", arr[i]);
 	}
 	printf("\n\n");
 
@@ -277,6 +277,35 @@ void Test(const char* sort_type)
 		for (i = 0; i < MAX_SIZE; i++)
 		{
 			printf("%d, ", arr[i]);
+		}
+		//do_sleep((clock_t)3 * CLOCKS_PER_SEC);
+		printf("\n\n[Sort Time : %2.5lf second]\n", duration);
+	}	
+	else if (strcmp(sort_type, "Counting sort") == 0)
+	{
+		int count[MAX_SIZE] = { 0, };
+		int j;
+
+
+		start = clock();
+		for (i = 0; i < MAX_SIZE; i++)
+		{
+			count[arr[i] - 1]++;
+		}
+		end = clock();
+
+		duration = (double)(end - start) / CLOCKS_PER_SEC;
+		printf("[After :: \"Counting Sort\"]\n");
+		for (i = 0; i < MAX_SIZE; i++)
+		{
+			if (count[i] != 0)
+			{
+				for (j = 0; j < count[i]; j++)
+				{
+					printf("%d, ", i + 1);
+				}
+				puts("");
+			}
 		}
 		//do_sleep((clock_t)3 * CLOCKS_PER_SEC);
 		printf("\n\n[Sort Time : %2.5lf second]\n", duration);
