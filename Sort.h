@@ -9,7 +9,10 @@
 #define SWAP(x, y, t) ((t) = (x), (x) = (y), (y) = (t))
 
 /*Define Array Size*/
-#define MAX_SIZE 10
+#define MAX_SIZE 1000
+
+/* Set random number using MAX_SIZE*/
+#define MKDAT() { for(i = 0; i < MAX_SIZE; i++){ arr[i] = (rand()% MAX_SIZE)+1;}}
 
 // Pauses for a specified number of milliseconds.
 void do_sleep(clock_t wait);
@@ -34,13 +37,18 @@ void merge_sort_implement(int arr[], int temp[], int start, int end);
 void merge_sort(int arr[], int start, int end);
 
 /*Merge Sort for Practice*/
-void merge_u(int arr[], int temp[], int start, int mid, int end);
-void merge_sort_u(int arr[], int temp[], int start, int end);
+void merge_u(int arr[], int start, int mid, int end);
+void merge_sort_u(int arr[], int start, int end);
 
 /*Heap Sort*/
 
 /*Radix Sort*/
 
+/*Shell Sort*/
+void shell_sort(int arr[], int N);
+
+/*Counting Sort*/
+void counting_sort(int arr[], int N);
 
 /*Test Sort Function.*/
 void Test(const char* sort_type);
